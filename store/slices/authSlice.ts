@@ -1,0 +1,328 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../lib/apiClient';
+
+// ─── Types ───────────────────────────────────────────────────────────────────
+export interface AuthUser {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: 'STUDENT' | 'AGENT' | 'ADMIN';
+    verificationStatus: string;
+    bankDetails?: {
+        bankName: string;
+        accountNumber: string;
+        accountName: string;
+        bankCode?: string;
+        recipientCode?: string;
+    };
+    isBlocked?: boolean;
+}
+
+interface OtpState {
+    required: boolean;
+    purpose: 'EMAIL_VERIFY' | 'LOGIN_2FA' | null;
+    userId: string | null;
+    email: string | null;
+    phone: string | null;
+}
+
+interface AuthState {
+    user: AuthUser | null;
+    token: string | null;
+    loading: boolean;
+    error: string | null;
+    otp: OtpState;
+}
+
+const initialState: AuthState = {
+    user: null,
+    token: null,
+    loading: false,
+    error: null,
+    otp: { required: false, purpose: null, userId: null, email: null, phone: null },
+};
+
+// ... Async Thunks ...
+
+// ─── Async Thunks ─────────────────────────────────────────────────────────────
+
+/** Login — Step 1: credentials → may require OTP */
+export const loginUser = createAsyncThunk(
+    'auth/login',
+    async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/auth/login', credentials);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data || { error: 'Login failed' });
+        }
+    }
+);
+
+/** Register — Step 1: create account → requires email OTP */
+export const registerUser = createAsyncThunk(
+    'auth/register',
+    async (
+        data: any,
+        { rejectWithValue }
+    ) => {
+        try {
+            const res = await api.post('/auth/register', data);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Registration failed');
+        }
+    }
+);
+
+/** Verify Email OTP (after registration) */
+export const verifyEmailOtp = createAsyncThunk(
+    'auth/verifyEmail',
+    async (data: { userId: string; code: string }, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/auth/verify-email', data);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Verification failed');
+        }
+    }
+);
+
+/** Verify Login OTP (2FA after login) */
+export const verifyLoginOtp = createAsyncThunk(
+    'auth/verifyLogin',
+    async (data: { userId: string; code: string }, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/auth/verify-login', data);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Verification failed');
+        }
+    }
+);
+
+/** Resend OTP */
+export const resendOtp = createAsyncThunk(
+    'auth/resendOtp',
+    async (data: { userId: string; purpose: string }, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/auth/resend-otp', data);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Failed to resend OTP');
+        }
+    }
+);
+
+/** Save Bank Details */
+export const saveBankDetails = createAsyncThunk(
+    'auth/saveBankDetails',
+    async (data: { userId: string; bankName: string; accountNumber: string; accountName: string; bankCode?: string }, { rejectWithValue }) => {
+        try {
+            const res = await api.post('/auth/save-bank-details', data);
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Failed to save bank details');
+        }
+    }
+);
+
+/** Fetch User Profile */
+export const getProfile = createAsyncThunk(
+    'auth/getProfile',
+    async (_, { rejectWithValue }) => {
+        try {
+            const res = await api.get('/auth/profile');
+            return res.data;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Failed to fetch profile');
+        }
+    }
+);
+
+// ─── Helper: save token to sessionStorage for apiClient ───────────────────
+const persistToken = (token: string | null) => {
+    if (typeof window !== 'undefined') {
+        if (token) {
+            sessionStorage.setItem('token', token);
+        } else {
+            sessionStorage.removeItem('token');
+        }
+    }
+};
+
+// ─── Slice ────────────────────────────────────────────────────────────────────
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        logout(state) {
+            state.user = null;
+            state.token = null;
+            state.otp = { required: false, purpose: null, userId: null, email: null, phone: null };
+            persistToken(null);
+        },
+        clearError(state) {
+            state.error = null;
+        },
+        clearOtp(state) {
+            state.otp = { required: false, purpose: null, userId: null, email: null, phone: null };
+        },
+        setOtpUserId(state, action) {
+            state.otp.userId = action.payload;
+            state.otp.required = true;
+        }
+    },
+    extraReducers: (builder) => {
+        // ── Login ──
+        builder.addCase(loginUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(loginUser.fulfilled, (state, action) => {
+            state.loading = false;
+            const data = action.payload;
+            if (data.requiresOtp) {
+                state.otp = {
+                    required: true,
+                    purpose: data.otpPurpose,
+                    userId: data.userId,
+                    email: data.email,
+                    phone: data.phone,
+                };
+                if (data.user) {
+                    state.user = data.user;
+                }
+            } else if (data.token) {
+                state.token = data.token;
+                state.user = data.user;
+                persistToken(data.token);
+            }
+        });
+        builder.addCase(loginUser.rejected, (state, action) => {
+            state.loading = false;
+            const data = action.payload as any;
+            if (data?.requiresBankDetails) {
+                state.otp.userId = data.userId;
+                state.otp.email = data.email;
+            }
+            state.error = data?.error || 'Login failed';
+        });
+
+        // ── Register ──
+        builder.addCase(registerUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(registerUser.fulfilled, (state, action) => {
+            state.loading = false;
+            const data = action.payload;
+            if (data.requiresBankDetails) {
+                // Special state: user exists but need bank details
+                state.otp.userId = data.userId;
+                state.otp.email = data.email;
+                if (data.user) state.user = data.user;
+            } else if (data.requiresOtp) {
+                state.otp = {
+                    required: true,
+                    purpose: data.otpPurpose,
+                    userId: data.userId,
+                    email: data.email,
+                    phone: data.phone,
+                };
+                if (data.user) {
+                    state.user = data.user;
+                }
+            } else if (data.token) {
+                state.token = data.token;
+                state.user = data.user;
+                persistToken(data.token);
+            }
+        });
+        builder.addCase(registerUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+
+        // ── Verify Email OTP ──
+        builder.addCase(verifyEmailOtp.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(verifyEmailOtp.fulfilled, (state, action) => {
+            state.loading = false;
+            state.token = action.payload.token;
+            state.user = action.payload.user;
+            state.otp = { required: false, purpose: null, userId: null, email: null, phone: null };
+            persistToken(action.payload.token);
+        });
+        builder.addCase(verifyEmailOtp.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+
+        // ── Verify Login OTP (2FA) ──
+        builder.addCase(verifyLoginOtp.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(verifyLoginOtp.fulfilled, (state, action) => {
+            state.loading = false;
+            state.token = action.payload.token;
+            state.user = action.payload.user;
+            state.otp = { required: false, purpose: null, userId: null, email: null, phone: null };
+            persistToken(action.payload.token);
+        });
+        builder.addCase(verifyLoginOtp.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+
+        // ── Resend OTP ──
+        builder.addCase(resendOtp.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(resendOtp.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(resendOtp.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+
+        // ── Save Bank Details ──
+        builder.addCase(saveBankDetails.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(saveBankDetails.fulfilled, (state, action) => {
+            state.loading = false;
+            const data = action.payload;
+            if (state.user) state.user.bankDetails = data.bankDetails;
+
+            if (data.requiresOtp) {
+                state.otp = {
+                    required: true,
+                    purpose: data.otpPurpose,
+                    userId: data.userId,
+                    email: data.email,
+                    phone: data.phone,
+                };
+            }
+        });
+        builder.addCase(saveBankDetails.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+
+        // ── Get Profile ──
+        builder.addCase(getProfile.fulfilled, (state, action) => {
+            state.user = action.payload;
+        });
+    },
+});
+
+export const { logout, clearError, clearOtp } = authSlice.actions;
+export default authSlice.reducer;
