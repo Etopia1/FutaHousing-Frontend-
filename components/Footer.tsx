@@ -19,7 +19,7 @@ const Footer = () => {
                             <span className="text-xl font-black uppercase italic tracking-tight">FUTA Housing</span>
                         </div>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            The safest way for FUTA students to find verified and affordable accommodation. Protected by our Escrow payment system.
+                            The safest way for tenants to find verified and affordable accommodation. Protected by our Escrow payment system.
                         </p>
                         <div className="space-y-2">
                             <p className="text-gray-400 text-sm flex items-center gap-2">
@@ -40,8 +40,8 @@ const Footer = () => {
                         <ul className="space-y-3">
                             {[
                                 { label: 'Browse Hostels', href: '/hostels' },
-                                { label: 'Student Dashboard', href: '/dashboard' },
-                                { label: 'Register as Student', href: '/auth/register' },
+                                { label: 'Tenant Dashboard', href: '/dashboard' },
+                                { label: 'Register as Tenant', href: '/auth/register' },
                                 { label: 'Register as Agent', href: '/auth/agent-register' },
                                 { label: 'Login', href: '/auth/login' },
                             ].map((link) => (

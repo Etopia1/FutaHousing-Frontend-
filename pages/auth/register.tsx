@@ -119,7 +119,7 @@ export default function Register() {
                                 ))}
                             </div>
                             <div>
-                                <p className="text-white text-sm font-semibold">Join 2,500+ FUTA students</p>
+                                <p className="text-white text-sm font-semibold">Join 2,500+ tenants & residents</p>
                                 <p className="text-white/50 text-xs">Sign up takes less than 2 minutes</p>
                             </div>
                         </div>
@@ -285,7 +285,7 @@ export default function Register() {
                                     </div>
                                 ) : (
                                     <>
-                                        Create Student Account
+                                        Create Tenant Account
                                         <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                                     </>
                                 )}

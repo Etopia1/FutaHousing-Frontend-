@@ -21,8 +21,8 @@ const faqs = [
         a: 'Every agent must submit valid government-issued ID (NIN or National ID) and proof of hostel ownership. Our admin team manually reviews and approves each application to ensure only legitimate agents list on the platform.',
     },
     {
-        q: 'Is there a fee for students?',
-        a: 'No! Students can sign up, browse hostels, and make bookings completely free. We only charge agents a small 5% commission on successful bookings.',
+        q: 'Is there a fee for tenants?',
+        a: 'No! Tenants can sign up, browse hostels, and make bookings completely free. We only charge agents a small 5% commission on successful bookings.',
     },
     {
         q: "What happens if the hostel doesn't match the listing?",
@@ -45,7 +45,7 @@ const testimonials = [
     {
         name: 'Kehinde Ogunleye',
         role: 'Hostel Agent, Apatite Area',
-        text: 'As an agent, this platform helped me reach more students and build trust. Payments are fast and secure. My bookings increased by 300%!',
+        text: 'As an agent, this platform helped me reach more tenants and build trust. Payments are fast and secure. My bookings increased by 300%!',
         rating: 5,
     },
     {
@@ -57,14 +57,14 @@ const testimonials = [
 ];
 
 const stats = [
-    { value: '2,500+', label: 'Students Housed' },
+    { value: '2,500+', label: 'Tenants Housed' },
     { value: '450+', label: 'Verified Listings' },
     { value: '120+', label: 'Trusted Agents' },
     { value: '₦0', label: 'Lost to Scams' },
 ];
 
 const steps = [
-    { num: '01', title: 'Create Account', desc: 'Sign up as a Student or Agent in seconds. No hidden fees.', color: 'from-violet-500 to-violet-600' },
+    { num: '01', title: 'Create Account', desc: 'Sign up as a Tenant or Agent in seconds. No hidden fees.', color: 'from-violet-500 to-violet-600' },
     { num: '02', title: 'Browse Hostels', desc: 'Search verified listings with photos, prices, and real reviews.', color: 'from-cyan-500 to-cyan-600' },
     { num: '03', title: 'Fund Wallet', desc: 'Add money to your secure wallet. Your funds are protected at all times.', color: 'from-emerald-500 to-emerald-600' },
     { num: '04', title: 'Book & Inspect', desc: 'Book your preferred hostel. Funds are held in escrow until you inspect.', color: 'from-amber-500 to-amber-600' },
@@ -72,11 +72,11 @@ const steps = [
 ];
 
 const features = [
-    { icon: FiShield, title: 'Escrow Protection', desc: 'Payments held in secure escrow until you confirm satisfaction. Zero risk for students.', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
+    { icon: FiShield, title: 'Escrow Protection', desc: 'Payments held in secure escrow until you confirm satisfaction. Zero risk for tenants.', color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
     { icon: FiCheckCircle, title: 'Verified Agents', desc: 'Every agent undergoes ID verification and admin approval. Only genuine listings.', color: 'bg-blue-50 text-blue-600 border-blue-100' },
     { icon: FiCreditCard, title: 'Digital Wallet', desc: 'Fund your wallet instantly and pay for bookings with one click.', color: 'bg-violet-50 text-violet-600 border-violet-100' },
     { icon: FiSearch, title: 'Smart Search', desc: 'Filter by location, price range, and amenities. Find your ideal hostel fast.', color: 'bg-cyan-50 text-cyan-600 border-cyan-100' },
-    { icon: FiUsers, title: 'Student Community', desc: 'Read reviews from real students and share your experiences.', color: 'bg-amber-50 text-amber-600 border-amber-100' },
+    { icon: FiUsers, title: 'Tenant Community', desc: 'Read reviews from real tenants and share your experiences.', color: 'bg-amber-50 text-amber-600 border-amber-100' },
     { icon: FiStar, title: 'Instant Booking', desc: 'Book without leaving your room. Manage everything from your dashboard.', color: 'bg-pink-50 text-pink-600 border-pink-100' },
 ];
 
@@ -93,8 +93,8 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
             <Head>
-                <title>FUTA Housing | Verify, Pay, Move-in — Secure Student Accommodation</title>
-                <meta name="description" content="FUTA Housing is the safest way for FUTA students to find verified hostels. Escrow protection, verified agents, and instant booking." />
+                <title>FUTA Housing | Verify, Pay, Move-in — Secure Tenant Accommodation</title>
+                <meta name="description" content="FUTA Housing is the safest way for tenants to find verified hostels. Escrow protection, verified agents, and instant booking." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/logo.png" />
                 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -120,7 +120,7 @@ export default function Home() {
                             <div className="text-white text-center lg:text-left">
                                 <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 rounded-full mb-5 border border-white/20">
                                     <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shrink-0" />
-                                    Trusted by 2,500+ FUTA Students
+                                    Trusted by 2,500+ Tenants & Residents
                                 </div>
 
                                 <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-6 tracking-tight">
@@ -135,30 +135,14 @@ export default function Home() {
                                     The smartest way to find your perfect hostel at FUTA. With our Escrow protection, your money is safe until you confirm satisfaction. No more scams.
                                 </p>
 
-                                {/* Search bar */}
-                                <form onSubmit={handleSearch} className="flex gap-2 mb-6 max-w-md mx-auto lg:mx-0">
-                                    <div className="relative flex-1">
-                                        <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                                        <input
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
-                                            placeholder="Search location or hostel..."
-                                            className="w-full pl-10 pr-4 py-3.5 rounded-2xl text-gray-900 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                                        />
-                                    </div>
-                                    <button type="submit" className="bg-yellow-300 text-indigo-900 font-black px-5 py-3.5 rounded-2xl hover:bg-yellow-200 transition-colors text-sm whitespace-nowrap">
-                                        Search
-                                    </button>
-                                </form>
-
-                                <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 items-center justify-center lg:justify-start">
+                                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center lg:justify-start mt-8">
                                     <Link href="/hostels"
-                                        className="group inline-flex items-center justify-center gap-2 bg-white text-indigo-700 font-black px-7 py-4 rounded-2xl hover:bg-yellow-300 hover:text-indigo-900 transition-all shadow-2xl shadow-white/10 text-base sm:text-lg transform hover:-translate-y-1 w-full xs:w-auto">
+                                        className="group inline-flex items-center justify-center gap-3 bg-white text-indigo-700 font-black px-10 py-5 rounded-2xl hover:bg-yellow-300 hover:text-indigo-900 transition-all shadow-2xl shadow-white/10 text-lg transform hover:-translate-y-1 w-full sm:w-auto">
                                         Find Your Hostel
                                         <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                     <Link href="/auth/register?role=AGENT"
-                                        className="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white font-bold px-7 py-4 rounded-2xl hover:bg-white/10 transition-all text-base sm:text-lg backdrop-blur-sm w-full xs:w-auto">
+                                        className="inline-flex items-center justify-center gap-3 border-2 border-white/20 text-white font-bold px-10 py-5 rounded-2xl hover:bg-white/10 transition-all text-lg backdrop-blur-sm w-full sm:w-auto">
                                         Partner as Agent
                                     </Link>
                                 </div>
@@ -295,9 +279,9 @@ export default function Home() {
                                     <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-5 sm:mb-6">How Escrow Works</h3>
                                     <div className="space-y-4 sm:space-y-5">
                                         {[
-                                            { step: '1', title: 'Student pays', desc: 'Payment goes to escrow, NOT the agent', icon: '💰', line: 'border-violet-300' },
-                                            { step: '2', title: 'Student inspects hostel', desc: 'Visit the hostel and verify everything', icon: '🏠', line: 'border-cyan-300' },
-                                            { step: '3', title: 'Student confirms', desc: 'Happy? Confirm and agent gets paid', icon: '✅', line: 'border-emerald-300' },
+                                            { step: '1', title: 'Tenant pays', desc: 'Payment goes to escrow, NOT the agent', icon: '💰', line: 'border-violet-300' },
+                                            { step: '2', title: 'Tenant inspects hostel', desc: 'Visit the hostel and verify everything', icon: '🏠', line: 'border-cyan-300' },
+                                            { step: '3', title: 'Tenant confirms', desc: 'Happy? Confirm and agent gets paid', icon: '✅', line: 'border-emerald-300' },
                                         ].map((item, i) => (
                                             <div key={item.step} className="flex items-start gap-3 sm:gap-4">
                                                 <div className="flex flex-col items-center">
@@ -343,7 +327,7 @@ export default function Home() {
                                         { val: '100%', label: 'Refund guarantee' },
                                         { val: '5%', label: 'Agent commission only' },
                                         { val: '24hrs', label: 'Average resolution' },
-                                        { val: '₦0', label: 'Student fees' },
+                                        { val: '₦0', label: 'Tenant fees' },
                                     ].map((item) => (
                                         <div key={item.label} className="bg-white rounded-xl p-3 sm:p-4 border border-gray-100 shadow-sm">
                                             <p className="text-xl sm:text-2xl font-black text-indigo-600">{item.val}</p>
@@ -362,7 +346,7 @@ export default function Home() {
                         <div className="text-center mb-10 sm:mb-16">
                             <span className="text-indigo-600 font-bold text-xs sm:text-sm uppercase tracking-widest">Testimonials</span>
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 mt-3">
-                                Loved by <span className="text-indigo-600">students & agents</span>
+                                Loved by <span className="text-indigo-600">tenants & agents</span>
                             </h2>
                         </div>
 
@@ -400,13 +384,13 @@ export default function Home() {
                                     Grow your hostel business with us
                                 </h2>
                                 <p className="text-violet-200 text-base sm:text-lg mt-5 sm:mt-6 leading-relaxed">
-                                    Reach thousands of FUTA students looking for accommodation. List your properties, get verified, and receive payments directly to your wallet. We only take a 5% commission on successful bookings.
+                                    Reach thousands of tenants looking for accommodation. List your properties, get verified, and receive payments directly to your wallet. We only take a 5% commission on successful bookings.
                                 </p>
                                 <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
                                     {[
-                                        'Instant access to 2,500+ active students',
+                                        'Instant access to 2,500+ active tenants',
                                         'Secure automated payments via escrow',
-                                        'Verified badge builds trust with students',
+                                        'Verified badge builds trust with tenants',
                                         'Dashboard to manage all your listings',
                                     ].map((benefit) => (
                                         <div key={benefit} className="flex items-start gap-3">
@@ -489,7 +473,7 @@ export default function Home() {
                             Ready to find your <span className="text-indigo-600">perfect hostel?</span>
                         </h2>
                         <p className="text-gray-500 text-base sm:text-lg mt-4 max-w-xl mx-auto">
-                            Join thousands of FUTA students who have found safe, verified accommodation through our platform. It&apos;s free to sign up.
+                            Join thousands of tenants who have found safe, verified accommodation through our platform. It&apos;s free to sign up.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-7 sm:mt-8">
                             <Link href="/auth/register"

@@ -113,7 +113,7 @@ export default function Login() {
                                 ))}
                             </div>
                             <div>
-                                <p className="text-white text-sm font-semibold">2,500+ students trust us</p>
+                                <p className="text-white text-sm font-semibold">2,500+ tenants trust us</p>
                                 <p className="text-white/50 text-xs">Secure housing at FUTA</p>
                             </div>
                         </div>
@@ -243,7 +243,7 @@ export default function Login() {
                         <div className="grid grid-cols-2 gap-3">
                             <Link href="/auth/register"
                                 className="flex items-center justify-center gap-2 p-3.5 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50/50 transition-all">
-                                🎓 Student Sign Up
+                                🏠 Tenant Sign Up
                             </Link>
                             <Link href="/auth/agent-register"
                                 className="flex items-center justify-center gap-2 p-3.5 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:border-violet-300 hover:text-violet-600 hover:bg-violet-50/50 transition-all">

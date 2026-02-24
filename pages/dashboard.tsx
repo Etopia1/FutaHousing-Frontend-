@@ -684,7 +684,7 @@ export default function Dashboard() {
                     </div>
 
                     <nav className="flex-1 px-4 space-y-1 mt-4">
-                        <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-4 mb-4">{isAgent ? 'Agent Console' : 'Student Hub'}</div>
+                        <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] px-4 mb-4">{isAgent ? 'Agent Console' : 'Tenant Hub'}</div>
                         {navItems.map((item) => (
                             <button
                                 key={item.id}

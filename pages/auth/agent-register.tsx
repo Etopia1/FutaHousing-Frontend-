@@ -98,7 +98,7 @@ export default function AgentRegister() {
         <>
             <Head>
                 <title>Agent Registration | FUTA Housing</title>
-                <meta name="description" content="Register as a hostel agent on FUTA Housing. Reach thousands of students with verified listings." />
+                <meta name="description" content="Register as a hostel agent on FUTA Housing. Reach thousands of tenants with verified listings." />
                 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
             </Head>
 
@@ -130,14 +130,14 @@ export default function AgentRegister() {
                                 </span>
                             </h1>
                             <p className="text-white/70 text-lg leading-relaxed mb-10">
-                                List your properties, reach thousands of FUTA students, and receive secure, automated payments through our escrow system.
+                                List your properties, reach thousands of tenants, and receive secure, automated payments through our escrow system.
                             </p>
 
                             {/* Agent benefits */}
                             <div className="space-y-4">
                                 {[
-                                    { icon: FiTrendingUp, text: 'Reach 2,500+ students actively searching for hostels' },
-                                    { icon: FiCheckCircle, text: 'Verified badge builds instant trust with students' },
+                                    { icon: FiTrendingUp, text: 'Reach 2,500+ tenants actively searching for hostels' },
+                                    { icon: FiCheckCircle, text: 'Verified badge builds instant trust with tenants' },
                                     { icon: FiStar, text: 'Only 5% commission — keep 95% of every booking' },
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/10">
@@ -440,7 +440,7 @@ export default function AgentRegister() {
 
                         <Link href="/auth/register"
                             className="w-full flex items-center justify-center gap-2 p-3.5 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50/50 transition-all">
-                            🎓 Register as Student instead
+                            🏠 Register as Tenant instead
                         </Link>
                     </div>
                 </div>

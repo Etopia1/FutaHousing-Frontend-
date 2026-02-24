@@ -129,7 +129,7 @@ export default function AdminDashboard() {
     const navItems: { icon: any; label: string; id: Tab }[] = [
         { icon: FiGrid, label: 'Overview', id: 'overview' },
         { icon: FiHome, label: 'Verified Agents', id: 'agents' },
-        { icon: FiCheckCircle, label: 'Renters/Students', id: 'students' },
+        { icon: FiCheckCircle, label: 'Renters/Tenants', id: 'students' },
         { icon: FiFileText, label: 'Documents', id: 'documents' },
         { icon: FiBook, label: 'Bookings', id: 'bookings' },
         { icon: FiHome, label: 'Hostels', id: 'hostels' },
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
 
     const statCards = [
         { label: 'Platform Users', value: stats?.totalUsers || 0, icon: '👥', color: 'from-violet-600 to-violet-800' },
-        { label: 'Active Students', value: stats?.totalStudents || 0, icon: '🎓', color: 'from-cyan-600 to-cyan-800' },
+        { label: 'Active Tenants', value: stats?.totalStudents || 0, icon: '🏠', color: 'from-cyan-600 to-cyan-800' },
         { label: 'Verified Agents', value: stats?.totalAgents || 0, icon: '🏘️', color: 'from-amber-500 to-amber-700' },
         { label: 'Escrow Funds', value: `₦${(stats?.escrowBalance || 0).toLocaleString()}`, icon: '🔒', color: 'from-pink-600 to-pink-800' },
         { label: 'Total Hostels', value: stats?.totalHostels || 0, icon: '🏠', color: 'from-emerald-500 to-emerald-700' },
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
                         <h1 className="text-xl font-black capitalize">
                             {tab === 'overview' ? '📊 Dashboard Overview'
                                 : tab === 'agents' ? '🏘️ Agent Management'
-                                    : tab === 'students' ? '🎓 Renter Management'
+                                    : tab === 'students' ? '🏠 Tenant Management'
                                         : tab === 'documents' ? '📄 Verification Documents'
                                             : tab === 'hostels' ? '🏠 Hostel Registry'
                                                 : '📋 All Bookings'}
