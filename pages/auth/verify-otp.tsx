@@ -101,8 +101,16 @@ export default function VerifyOtp() {
                 const role = result.payload?.user?.role;
                 router.push(role === 'ADMIN' ? '/admin' : '/dashboard');
             }
+        } else if (otp.purpose === 'PASSWORD_RESET') {
+            const { verifyResetOtp } = await import('../../store/slices/authSlice');
+            result = await dispatch(verifyResetOtp(payload));
+            if (verifyResetOtp.fulfilled.match(result)) {
+                toast.success('Identity verified! Set your new password.');
+                router.push(`/auth/reset-password?token=${result.payload.resetToken}`);
+            }
         }
     }, [codes, otp, dispatch, router]);
+
 
     const handleResend = async () => {
         if (!otp.userId || !otp.purpose) return;

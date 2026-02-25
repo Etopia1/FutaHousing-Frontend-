@@ -180,9 +180,10 @@ export default function Login() {
                             <div>
                                 <div className="flex items-center justify-between mb-2">
                                     <label className="block text-sm font-semibold text-gray-700">Password</label>
-                                    <button type="button" className="text-xs text-indigo-600 hover:text-indigo-700 font-semibold transition">
+                                    <Link href="/auth/forgot-password" className="text-xs text-indigo-600 hover:text-indigo-700 font-semibold transition">
                                         Forgot password?
-                                    </button>
+                                    </Link>
+
                                 </div>
                                 <div className="relative group">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-gray-100 group-focus-within:bg-indigo-50 rounded-lg flex items-center justify-center transition-colors">

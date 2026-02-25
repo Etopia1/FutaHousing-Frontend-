@@ -17,6 +17,10 @@
       "static/chunks/node_modules_html2canvas_dist_html2canvas_js.js"
     ]
   },
+  "auth\\verify-otp.tsx -> ../../store/slices/authSlice": {
+    "id": "auth\\verify-otp.tsx -> ../../store/slices/authSlice",
+    "files": []
+  },
   "dashboard.tsx -> recharts": {
     "id": "dashboard.tsx -> recharts",
     "files": [
